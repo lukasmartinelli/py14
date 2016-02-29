@@ -18,20 +18,19 @@ Original Python version.
 
 ```python
 def factorial(num):
-    if num <= 1:
-        return num
-    return factorial(num-1) * num
+	if num <= 1:
+		return num
+	return factorial(num-1) * num
 ```
 
 Transpiled C++ template.
 
-
 ```c++
 template <typename T1> auto factorial(T1 num) {
-  if (num <= 1) {
-    return num;
-  }
-  return factorial(num - 1) * num;
+	if (num <= 1) {
+		return num;
+	}
+	return factorial(num - 1) * num;
 }
 ```
 
@@ -41,10 +40,10 @@ Consider a `map` implementation.
 
 ```python
 def map(values, fun):
-    results = []
-    for v in values:
-        results.append(fun(v))
-    return results
+	results = []
+	for v in values:
+		results.append(fun(v))
+	return results
 ```
 
 This can be transpiled into the following C++ template.
@@ -52,12 +51,12 @@ This can be transpiled into the following C++ template.
 ```c++
 template <typename T1, typename T2>
 auto map(T1 values, T2 fun) {
-    std::vector<decltype(
-        fun(std::declval<typename decltype(values)::value_type>()))> results{};
-    for (auto v : values) {
-        results.push_back(fun(v));
-    }
-    return results;
+	std::vector<decltype(
+		fun(std::declval<typename decltype(values)::value_type>()))> results{};
+	for (auto v : values) {
+		results.push_back(fun(v));
+	}
+	return results;
 }
 ```
 
@@ -90,6 +89,7 @@ Compiling:
 ```
 clang++ -Wall -Wextra -std=c++14 -Ipy14/runtime fib.cpp
 ```
+
 Run regression tests:
 
 ```
@@ -110,18 +110,18 @@ py.test --cov=py14
 
 ```python
 def pdf(x, mean, std_dev):
-    term1 = 1.0 / ((2 * math.pi) ** 0.5)
-    term2 = (math.e ** (-1.0 * (x-mean) ** 2.0 / 2.0 * (std_dev ** 2.0)))
-    return term1 * term2
+	term1 = 1.0 / ((2 * math.pi) ** 0.5)
+	term2 = (math.e ** (-1.0 * (x-mean) ** 2.0 / 2.0 * (std_dev ** 2.0)))
+	return term1 * term2
 ```
 
 ```c++
 template <typename T1, typename T2, typename T3>
 auto pdf(T1 x, T2 mean, T3 std_dev) {
-  auto term1 = 1.0 / std::pow(2 * py14::math::pi, 0.5);
-  auto term2 = std::pow(py14::math::e, -1.0 * std::pow(x - mean, 2.0) / 2.0 *
-                                           std::pow(std_dev, 2.0));
-  return term1 * term2;
+	auto term1 = 1.0 / std::pow(2 * py14::math::pi, 0.5);
+	auto term2 = std::pow(py14::math::e, -1.0 * std::pow(x - mean, 2.0) / 2.0 *
+												std::pow(std_dev, 2.0));
+	return term1 * term2;
 }
 ```
 
@@ -129,25 +129,25 @@ auto pdf(T1 x, T2 mean, T3 std_dev) {
 
 ```python
 def fib(n):
-    if n == 1:
-        return 1
-    elif n == 0:
-        return 0
-    else:
-        return fib(n-1) + fib(n-2)
+	if n == 1:
+		return 1
+	elif n == 0:
+		return 0
+	else:
+		return fib(n-1) + fib(n-2)
 ```
 
 ```c++
 template <typename T1> auto fib(T1 n) {
-  if (n == 1) {
-    return 1;
-  } else {
-    if (n == 0) {
-      return 0;
-    } else {
-      return fib(n - 1) + fib(n - 2);
-    }
-  }
+	if (n == 1) {
+		return 1;
+	} else {
+		if (n == 0) {
+			return 0;
+		} else {
+			return fib(n - 1) + fib(n - 2);
+		}
+	}
 }
 ```
 
@@ -155,25 +155,25 @@ template <typename T1> auto fib(T1 n) {
 
 ```python
 def sort(seq):
-    L = len(seq)
-    for _ in range(L):
-        for n in range(1, L):
-            if seq[n] < seq[n - 1]:
-                seq[n - 1], seq[n] = seq[n], seq[n - 1]
-    return seq
+	L = len(seq)
+	for _ in range(L):
+		for n in range(1, L):
+			if seq[n] < seq[n - 1]:
+				seq[n - 1], seq[n] = seq[n], seq[n - 1]
+	return seq
 ```
 
 ```c++
 template <typename T1> auto sort(T1 seq) {
-  auto L = seq.size();
-  for (auto _ : rangepp::range(L)) {
-    for (auto n : rangepp::range(1, L)) {
-      if (seq[n] < seq[n - 1]) {
-        std::tie(seq[n - 1], seq[n]) = std::make_tuple(seq[n], seq[n - 1]);
-      }
-    }
-  }
-  return seq;
+	auto L = seq.size();
+	for (auto _ : rangepp::range(L)) {
+		for (auto n : rangepp::range(1, L)) {
+			if (seq[n] < seq[n - 1]) {
+				std::tie(seq[n - 1], seq[n]) = std::make_tuple(seq[n], seq[n - 1]);
+			}
+		}
+	}
+	return seq;
 }
 ```
 
